@@ -23,7 +23,7 @@ class Proxy(http.server.SimpleHTTPRequestHandler):
 
 try:
 	httpd = socketserver.ForkingTCPServer((PROXY_IP, PROXY_PORT), Proxy)
-	print("Starting Tagged Proxy Server v2...")
+	print("Starting Tagged Proxy Server v1...")
 	print("Waiting for incoming connections...")
 	httpd.serve_forever()
 except KeyboardInterrupt:
