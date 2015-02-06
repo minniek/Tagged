@@ -1,5 +1,7 @@
-# HTTP Proxy Server
+# HTTP Proxy Server (Python 3.2.3)
 # Adds custom request header
+# References:
+# [1] https://docs.python.org/3.2/library/socket.html
 
 import socket
 import urllib.request
