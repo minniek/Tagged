@@ -1,6 +1,6 @@
 <!--Tagged Server v0
-		Displays HTTP request headers
-		References: http://php.net/manual/en/function.getallheaders.php
+Displays HTTP request headers
+References: http://php.net/manual/en/function.getallheaders.php
 -->
 
 <html>
