@@ -1,7 +1,7 @@
 # HTTP Proxy Server (Python 3.2.3)
 # Adds custom header before original URL is forwarded
 # References: 
-# http://effbot.org/librarybook/simplehttpserver.htm
+# [1] http://effbot.org/librarybook/simplehttpserver.htm
 
 import socketserver
 import http.server
