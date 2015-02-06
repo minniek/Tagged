@@ -16,7 +16,7 @@ References: http://php.net/manual/en/function.getallheaders.php
 	// Fetch all HTTP request headers and format into JSON
 	$finalArray = array();
 	foreach (getallheaders() as $headerName => $headerValue) {
-	  $myArray = array($headerName => $headerValue);
+		$myArray = array($headerName => $headerValue);
 		$finalArray = array_merge($finalArray, $myArray);
 	}
 	echo json_encode($finalArray);
