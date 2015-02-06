@@ -6,7 +6,7 @@ References: http://php.net/manual/en/function.getallheaders.php
 <html>
 <title> Tagged Server v0 </title>
 <style>
-body {font-family: "Courier New", Courier, monospace}
+	body {font-family: "Courier New", Courier, monospace}
 </style>
 
 <body>
