@@ -28,7 +28,7 @@ def Proxy(conn):
 	# Add custom header 'x-tagged'
 	modifiedReq = urllib.request.Request(url)
 	modifiedReq.add_header('x-tagged', 'mini')
-	modifiedReq.add_header('User-Agent', "Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.27 Safari/537.17")
+	#modifiedReq.add_header('User-Agent', "Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.27 Safari/537.17")
 	print("Connecting to original URL with modified header...")
 	try: 
 		response = urllib.request.urlopen(modifiedReq) # send the modified request
