@@ -29,5 +29,5 @@ try:
 	httpd.serve_forever()
 except KeyboardInterrupt:
 	print("Shutting down server...")
-	httpd.socket.close()
+	httpd.shutdown()
 	print("Server shutdown!")
