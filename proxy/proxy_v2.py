@@ -11,7 +11,7 @@ class Proxy(http.server.SimpleHTTPRequestHandler):
 		self.send_response(200)
 		#print(self.headers.items()) # DEBUGGING - check outputs
 		headers = {}
-		for header, value in self.headers.items(): # Send original headers
+		for header, value in self.headers.items(): # Store original headers
 			#print(header,":", value) # DEBUGGING
 			headers[header] = value
 		headers['x-tagged'] = 'mini' # Add custom header
