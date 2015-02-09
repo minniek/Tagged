@@ -1,3 +1,5 @@
+# Proxy (Python 3.2.3)
+
 import socketserver
 import http.server
 import urllib.request
@@ -9,22 +11,27 @@ class Proxy(http.server.SimpleHTTPRequestHandler):
 	def do_GET(self):
 		#print(self.path) # DEBUGGING
 		self.send_response(200)
-		#print(self.headers.items()) # DEBUGGING - check outputs
+		#print(self.headers.items()) # DEBUGGING - compare with serverOutput
+
+		# Repackage original headers to pass as dict parameter for new Request
 		headers = {}
-		for header, value in self.headers.items(): # Store original headers
+		for header, value in self.headers.items():
 			#print(header,":", value) # DEBUGGING
 			headers[header] = value
-		headers['x-tagged'] = 'mini' # Add custom header
-		self.end_headers()
-		req = urllib.request.Request(self.path, headers=headers)
-		serverOutput = urllib.request.urlopen(req).read()
-		print("serverOutput:\n", serverOutput.decode())
-		self.copyfile(urllib.request.urlopen(self.path), self.wfile)
+		# Add new header
+		headers['x-tagged'] = 'mini'
+		self.end_headers() # Prevent EOF error (sends blank line)
+		req = urllib.request.Request(self.path, headers=headers) 
+		self.copyfile(urllib.request.urlopen(req), self.wfile)
+
+		# Display server's output
+		serverOutput = urllib.request.urlopen(req).read().decode()
+		print("serverOutput:\n", serverOutput)
 		print("--------------------------------------------------")
 
 try:
 	httpd = socketserver.ForkingTCPServer((PROXY_IP, PROXY_PORT), Proxy)
-	print("Starting Tagged Proxy Server v2...")
+	print("Starting Tagged Proxy Server v1...")
 	print("Waiting for incoming connections...")
 	httpd.serve_forever()
 except KeyboardInterrupt:
