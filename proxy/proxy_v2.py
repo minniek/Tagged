@@ -15,6 +15,7 @@ class Proxy(http.server.SimpleHTTPRequestHandler):
 			#print(header,":", value) # DEBUGGING
 			headers[header] = value
 		headers['x-tagged'] = 'mini' # Add custom header
+		self.end_headers()
 		req = urllib.request.Request(self.path, headers=headers)
 		serverOutput = urllib.request.urlopen(req).read()
 		print("serverOutput:\n", serverOutput.decode())
