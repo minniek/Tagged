@@ -3,24 +3,23 @@ import getopt
 import fileinput
 import shutil
 import imp
-import proxy_v2_test_copy
+import proxy_v2_test
 
-fileTemplate = "proxy_v2_test.py"
-newFile = "proxy_v2_test_copy.py"
-replaceThis = 'mode = \'a\''
-replaceWithA = 'mode = \'a\''
-replaceWithV = 'mode = \'v\''
+file = "proxy_v2_test.py"
+replaceA = 'mode = \'a\''
+replaceV = 'mode = \'v\''
 
 myopts = getopt.getopt(sys.argv[1], "av")
 
+# If option "-a", no extra headers are injected
+# If option "-v", "x-tagged" header is injected
 for o in myopts:
-	if o == '-v':
-		shutil.copy(fileTemplate, newFile)
-		for line in fileinput.input(newFile, inplace=True):
-			sys.stdout.write(line.replace(replaceThis, replaceWithV))
-	elif o == '-a':
-		shutil.copy(fileTemplate, newFile)
-		for line in fileinput.input(newFile, inplace=True):
-			sys.stdout.write(line.replace(replaceThis, replaceWithA))
+	if o == '-a':
+		for line in fileinput.input(file, inplace=True):
+			sys.stdout.write(line.replace(replaceV, replaceA))
+	elif o == '-v':
+		for line in fileinput.input(file, inplace=True):
+			sys.stdout.write(line.replace(replaceA, replaceV))
 
-imp.reload(proxy_v2_test_copy)
+# Reload Python proxy after making changes
+imp.reload(proxy_v2_test)
