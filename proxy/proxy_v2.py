@@ -4,7 +4,7 @@ import socketserver
 import http.server
 import urllib.request
 
-PROXY_IP = '192.168.16.130'
+PROXY_IP = '192.168.42.1' # Static
 PROXY_PORT = 1717
 
 class Proxy(http.server.SimpleHTTPRequestHandler):
@@ -18,8 +18,16 @@ class Proxy(http.server.SimpleHTTPRequestHandler):
 		for header, value in self.headers.items():
 			#print(header,":", value) # DEBUGGING
 			headers[header] = value
+			
+		# Change mode
+		mode = 'a' # Default (no changes)
 		# Add new header
-		headers['x-tagged'] = 'mini'
+		if (mode == 'v'):
+			print("Proxy is in mode v")
+			headers['x-tagged'] = 'mini'
+		elif (mode == 'a'):
+			print("Proxy is in mode a")
+			
 		self.end_headers() # Prevent EOF error (sends blank line)
 		req = urllib.request.Request(self.path, headers=headers) 
 		self.copyfile(urllib.request.urlopen(req), self.wfile)
