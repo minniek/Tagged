@@ -21,6 +21,7 @@ class Proxy(http.server.SimpleHTTPRequestHandler):
 			
 		# Change mode
 		mode = 'a' # Default (no changes)
+		mode = open('/tmp/proxy_config').read()[0]
 		# Add new header
 		if (mode == 'v'):
 			print("Proxy is in mode v")
