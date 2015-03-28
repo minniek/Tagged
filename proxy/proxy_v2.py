@@ -20,11 +20,12 @@ class Proxy(http.server.SimpleHTTPRequestHandler):
 			headers[header] = value
 			
 		# Change mode
-		mode = open('/tmp/proxy_config').read()[0]
-		# Add new header
+		mode = open('proxy_config').read()[0]
+		# If mode v, insert new header
 		if (mode == 'v'):
 			print("Proxy is in mode v")
 			headers['x-tagged'] = 'mini'
+		# If mode a, do nothing
 		elif (mode == 'a'):
 			print("Proxy is in mode a")
 			
