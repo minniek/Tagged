@@ -52,9 +52,10 @@ class Proxy(http.server.SimpleHTTPRequestHandler):
 		# Create new Request object with new header
 		req = urllib.request.Request(fullPath, headers=headers) 		
 
-		# Intercept Tagged server's response, remove the "X-tagged"
-		# header, and send it back to client
-		# This should invalidate the Tagged server's digital signature 
+		'''
+		Get server's response, remove the "X-tagged" header, and send modified response to client
+		This should invalidate the Tagged server's digital signature
+		'''
 		mode2 = open('proxy_config').read()
 		if ('x' in mode2):
 			print("Proxy mode2 is set to x.\nRemoving X-tagged header...")		
