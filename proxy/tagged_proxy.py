@@ -1,6 +1,8 @@
-# Tagged Proxy (Python 3.2.3)
-# Inject and/or Remove Header 
-# Usage: python3 tagged_proxy.py
+'''
+Tagged Proxy (Python 3.2.3)
+Inject and/or Remove Header 
+Usage: python3 tagged_proxy.py
+'''
 
 import socketserver
 import http.server
@@ -53,8 +55,8 @@ class Proxy(http.server.SimpleHTTPRequestHandler):
 		# Intercept Tagged server's response, remove the "X-tagged"
 		# header, and send it back to client
 		# This should invalidate the Tagged server's digital signature 
-		mode2 = open('proxy_config').read()[1]
-		if (mode2 == 'x') and (mode1 == 'v'):
+		mode2 = open('proxy_config').read()
+		if ('x' in mode2):
 			print("Proxy mode2 is set to x.\nRemoving X-tagged header...")		
 			h = urllib.request.urlopen(req)
 			hh = json.loads(h.readall().decode('utf-8'))
