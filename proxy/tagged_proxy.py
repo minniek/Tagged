@@ -1,6 +1,6 @@
-'''
-Tagged Proxy (Python 3.2.3)
-'''
+# Tagged Proxy (Python 3.2.3)
+# Inject and/or Remove Header 
+# Usage: python3 tagged_proxy.py
 
 import socketserver
 import http.server
@@ -11,48 +11,59 @@ PROXY_IP = '192.168.42.1' # Static
 PROXY_PORT = 1717
 
 class Proxy(http.server.SimpleHTTPRequestHandler):
+
 	def do_GET(self):
+		#print("self.path: ", self.path)
 		partialPath = self.path
 		self.send_response(200)
+		#print(self.headers.items())
 		
 		# Repackage original headers to pass as dict parameter for new Request object "req"
 		headers = {}
 		for header, value in self.headers.items():
+			#print(header,":", value) # DEBUGGING
 			headers[header] = value
 			if header == 'Host':
 				host = value
+		#print("host: ", host)
 		fullPath = "http://" + host + partialPath
 		#print("fullPath: ", fullPath)
 
 		# Change mode
-		mode = open('proxy_config').read()[0]
+		mode1 = open('proxy_config').read()[0]
 		# If mode v, insert new header
-		if (mode == 'v'):
+		if (mode1 == 'v'):
 			print("Proxy is in mode v")
 			headers['X-tagged'] = 'ec902'
-		# If mode a, do nothing
-		elif (mode == 'a'):
+		# If mode a, do nothing...
+		elif (mode1 == 'a'):
 			print("Proxy is in mode a")
+		else:
+			print("Mode1 not specified, default to mode1 = a")
+
+		# This won't change the original cache-control header
+		#headers['cache-control'] = 'blahblahblah'
 
 		# Prevent EOF error by sending a blank line
 		self.end_headers() 
 
 		# Create new Request object with new header
-		req = urllib.request.Request(fullPath, headers=headers)
+		req = urllib.request.Request(fullPath, headers=headers) 		
 
-		# Send Tagged server's original response to client
-		#self.copyfile(urllib.request.urlopen(req), self.wfile)	
-
-		'''
-		Get Tagged server's response, create new Request object, 
-		remove the "X-tagged" header, and send altered response to client
-		This should invalidate the Tagged server's digital signature
-		'''
-		response = urllib.request.urlopen(req)
-		h = json.loads(response.readall().decode('utf-8'))
-		newReq = urllib.request.Request(req.full_url, headers = h)
-		newReq.remove_header('X-tagged') # Added "remove_header" function to urllib.request module
-		self.copyfile(urllib.request.urlopen(newReq), self.wfile))
+		# Intercept Tagged server's response, remove the "X-tagged"
+		# header, and send it back to client
+		# This should invalidate the Tagged server's digital signature 
+		mode2 = open('proxy_config').read()[1]
+		if (mode2 == 'x') and (mode1 == 'v'):
+			print("Proxy mode2 is set to x.\nRemoving X-tagged header...")		
+			h = urllib.request.urlopen(req)
+			hh = json.loads(h.readall().decode('utf-8'))
+			newReq = urllib.request.Request(req.full_url, headers = hh)
+			newReq.remove_header('X-tagged')
+			print("Removed X-tagged header.")
+			self.copyfile(urllib.request.urlopen(newReq), self.wfile)
+		else:
+			self.copyfile(urllib.request.urlopen(req), self.wfile)
 		print("---------------------------------------------------")
 
 # Main
