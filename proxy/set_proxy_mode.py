@@ -34,7 +34,7 @@ led_2 = 21
 GPIO.setup(led_2, GPIO.OUT)
 GPIO.output(led_2, 0)
 
-# TODO Replace button with push button or switch
+# TODO Replace button with push button or switch, add debouncing if needed
 try:
 	os.system("echo -n a > proxy_config") # Set default mode
 	print("Waiting for input...")
