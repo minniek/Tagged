@@ -2,7 +2,7 @@
 
 import os
 
-# Generate private key
+# Generate private key to generate digital signature 
 os.system("openssl genrsa -out private_key.pem 2048")
 
 # Generate public key from private (to be used with Tagged Android app)
